@@ -1,13 +1,13 @@
-package crud_operation_tutorial.crud.restApiWorkflow;
+package com.loyalty.gold_points_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class GoldPointsApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(GoldPointsApiApplication.class, args);
 	}
 
 }
