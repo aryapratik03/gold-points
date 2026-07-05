@@ -2,7 +2,9 @@ package com.loyalty.gold_points_api.controllers;
 
 import com.loyalty.gold_points_api.dto.request.UserRequest;
 import com.loyalty.gold_points_api.dto.response.UserResponse;
+import com.loyalty.gold_points_api.entities.User;
 import com.loyalty.gold_points_api.services.UserService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,13 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAll(){
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponse> findOne(@PathVariable Long userId) {
+        User user =userService.findUserById(userId);
+
+        return ResponseEntity.ok(userService.toResponse(user));
     }
 
     @PostMapping

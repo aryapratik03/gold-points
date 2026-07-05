@@ -17,21 +17,34 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserResponse> getAllUsers(){
-        return userRepository.findAll().stream().map(this::toResponse).toList();
+    public List<UserResponse> getAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
-    public UserResponse createUser(UserRequest userRequest){
-        User user = new User();
-        user.setFullName(userRequest.fullName());
-        user.setEmail(userRequest.email());
-        user.setPassword(userRequest.password()); //TODO Create hmac for password and save encrypted
+
+    public User findUserById(Long userId){
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public UserResponse createUser(UserRequest userRequest) {
+        User user = User.builder()
+                .fullName(userRequest.fullName())
+                .email(userRequest.email())
+                .password(userRequest.password())
+                .build();
 
         User savedUser = userRepository.save(user);
-
         return toResponse(savedUser);
     }
-    private UserResponse toResponse(User user) {
-        return new UserResponse(user.getUserId(), user.getFullName(), user.getEmail());
-    }
 
+    public UserResponse toResponse(User user) {
+        return new UserResponse(
+                user.getUserId(),
+                user.getFullName(),
+                user.getEmail()
+        );
+    }
 }
